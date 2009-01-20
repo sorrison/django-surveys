@@ -38,7 +38,8 @@ def save_survey_form(survey, survey_form):
         except:
             answer_class = q.get_answer_class()
             answer = answer_class()
-            
+        
+        print type(survey)
         answer.survey = survey
         answer.question = q
         answer.answer = data[str(q.order)]
