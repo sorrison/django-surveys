@@ -15,6 +15,8 @@ TYPES = (
     ('text', 'Text'),
     ('int', 'Integer'),
     ('bool', 'Boolean'),
+    ('choi', 'Select'),
+    ('many', 'Select Many'),
     )
 
 class Question(models.Model):
@@ -23,6 +25,7 @@ class Question(models.Model):
     question = models.CharField(max_length=200)
     answer_type = models.CharField(max_length=4, choices=TYPES)
     required = models.BooleanField()
+    preset_answers = models.TextField(null=True, blank=True, help_text="Seperate answers with a ;")
 
     class Meta:
         unique_together = ('survey_group', 'order')
@@ -31,12 +34,17 @@ class Question(models.Model):
     def __unicode__(self):
         return self.question
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ('surv_question_detail', [self.id,])
+
     def get_form_field(self):
         from django_common.widgets import TextField
         fields = {
             'text': TextField,
             'int': forms.IntegerField,
             'bool': forms.BooleanField,
+            'choi': forms.ChoiceField,
             }
         return fields[self.answer_type]
 
@@ -47,12 +55,14 @@ class Question(models.Model):
             'text': TextAnswer,
             'int': IntegerAnswer,
             'bool': BooleanAnswer,
+            'choi': CharAnswer,
             }
         return fields[self.answer_type]
 
 
 class Survey(models.Model):
     survey_group = models.ForeignKey(SurveyGroup)
+    submitter = models.CharField(max_length=100, default="anonymous")
     date_submitted = models.DateField(null=True, blank=True)
 
     def __unicode__(self):
@@ -64,13 +74,23 @@ class Answer(models.Model):
     question = models.ForeignKey(Question)
     type = models.CharField(max_length=4, editable=False)
 
+
+    class Meta:
+        unique_together = ('survey', 'question')
+
     def get_child(self):
         if self.type == 'text':
             return self.textanswer
-        if self.type == 'bool':
+        elif self.type == 'bool':
             return self.booleananswer
-        if self.type == 'int':
+        elif self.type == 'int':
             return self.integeranswer
+        elif self.type == 'choi':
+            return self.charanswer
+
+    def get_answer(self):
+        return self.get_child().get_answer()
+
 
     def __unicode__(self):
         try:
@@ -88,8 +108,9 @@ class TextAnswer(Answer):
         super(self.__class__, self).save(force_insert, force_update)
  
 
-    def get_form_field(self):
-        return forms.CharField
+    def get_answer(self):
+        return self.answer
+
 
 class IntegerAnswer(Answer):
     answer = models.IntegerField(null=True, blank=True)
@@ -99,8 +120,9 @@ class IntegerAnswer(Answer):
             self.type = 'int'
         super(self.__class__, self).save(force_insert, force_update)
 
-    def get_form_field(self):
-        return forms.IntgerField
+
+    def get_answer(self):
+        return self.answer
 
 
 class BooleanAnswer(Answer):
@@ -111,8 +133,23 @@ class BooleanAnswer(Answer):
             self.type = 'bool'
         super(self.__class__, self).save(force_insert, force_update)
 
-    def get_form_field(self):
-        return forms.BooleanField
+    def get_answer(self):  
+        if self.answer == 0:
+            return 'no'
+        return 'yes'
+
+
+class CharAnswer(Answer):
+    answer = models.CharField(max_length=100, null=True, blank=True)
+
+    def save(self, force_insert=False, force_update=False):
+        if not self.id:
+            self.type = 'choi'
+        super(self.__class__, self).save(force_insert, force_update)
+
+    def get_answer(self):
+        return self.answer
 
 
  
+
