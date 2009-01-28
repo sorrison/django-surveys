@@ -15,9 +15,22 @@
 	<div class="module">
 	<h1>{{ question.question }}</h1>	
 	
-	<p>{{ total }} answer{{ answer_dict|pluralize }}</p>	
+		
+	<img src="{{ graph_url }}" alt="graph" />
+	<hr />
 	
-		<img src="{{ graph_url }}" alt="graph" />
+	{% regroup answer_set|dictsort:"answer" by get_answer as answer_list %} 
+	<ul>
+	{% for answer in answer_list %}
+	<li>{{ answer.grouper }} ({{ answer.list|length }})
+	<ul>
+	   {% for survey in answer.list %}
+		<li>{{ survey.survey.submitter }}</li>
+	   {% endfor %}
+	</ul></li>
+	{% endfor %}
+	</ul>
+	<p>{{ total }} answer{{ answer_dict|pluralize }} in total</p>
 	</div>	
 	
 </div>

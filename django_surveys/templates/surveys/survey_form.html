@@ -1,0 +1,55 @@
+{% extends "forms.html" %}
+{% load forms %}
+
+{% block title %}Survey{% endblock %}
+
+{% block content_title %}{% endblock %}
+    
+ 
+{% block extrahead %}
+<script type="text/javascript" src="/admin/jsi18n/"></script> 
+<script type="text/javascript" src="{{ admin_url }}js/core.js"></script>
+<script type="text/javascript" src="{{ admin_url }}js/admin/RelatedObjectLookups.js"></script>
+<script type="text/javascript" src="{{ admin_url }}js/calendar.js"></script>
+<script type="text/javascript" src="{{ admin_url }}js/admin/DateTimeShortcuts.js"></script>
+
+
+{% endblock %}    
+
+{% block bread_crumbs_1 %}
+ &rsaquo; <a href="../">Questions</a>
+ &rsaquo; 
+{% endblock %}    
+
+{% block content %}
+<form method="post" action=".">
+{{ question_formset.management_form }}
+<div>
+
+{% if surveygroup_form.errors or surveygroup_form.non_field_errors %}
+	<p class="errornote">Please correct the error{{ form.errors|pluralize }} below.</p>
+{% endif %}
+<fieldset class="module aligned ()">
+<h2></h2>
+{{ surveygroup_form.non_field_errors }}
+{% form_as_div surveygroup_form %}
+</fieldset>
+{% for form in question_formset.forms %}
+<fieldset class="module aligned ()">
+{{ form.id }}
+{{ form.survey_group }}
+{% formfield form.order %}
+{% formfield form.question %}
+{% formfield form.answer_type %}
+{% formfield form.required %}
+{% formfield form.preset_answers %}
+{% formfield form.DELETE %}
+</fieldset>
+{% endfor %}
+</div>
+<div class="submit-row">
+		<input type="submit" name="another" value="Save and continue editing" />
+		<input type="submit" value="Save" class="default" />
+	</div>
+</form>
+{% endblock %}
