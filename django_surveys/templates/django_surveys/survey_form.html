@@ -17,8 +17,8 @@
 {% endblock %}    
 
 {% block bread_crumbs_1 %}
- &rsaquo; <a href="../">Questions</a>
- &rsaquo; 
+ &rsaquo; <a href="{% url surv_surveygroup_list %}">Surveys</a>
+ &rsaquo; {{ surveygroup|default_if_none:"Create" }}
 {% endblock %}    
 
 {% block content %}
@@ -30,12 +30,13 @@
 	<p class="errornote">Please correct the error{{ form.errors|pluralize }} below.</p>
 {% endif %}
 <fieldset class="module aligned ()">
-<h2></h2>
+<h2>Survey Details</h2>
 {{ surveygroup_form.non_field_errors }}
 {% form_as_div surveygroup_form %}
 </fieldset>
 {% for form in question_formset.forms %}
 <fieldset class="module aligned ()">
+<h2>Question</h2>
 {{ form.id }}
 {{ form.survey_group }}
 {% formfield form.order %}

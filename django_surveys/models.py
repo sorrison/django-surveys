@@ -11,6 +11,11 @@ class SurveyGroup(models.Model):
         return self.name
     
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ('surv_surveygroup_edit', [self.id])
+
+
 TYPES = (
     ('text', 'Text'),
     ('int', 'Integer'),
@@ -25,7 +30,7 @@ class Question(models.Model):
     question = models.CharField(max_length=200)
     answer_type = models.CharField(max_length=4, choices=TYPES)
     required = models.BooleanField()
-    preset_answers = models.TextField(null=True, blank=True, help_text="Seperate answers with a ;")
+    preset_answers = models.TextField(null=True, blank=True, help_text="Use only with Select and Select Many. Seperate answers with a semicolon.")
 
     class Meta:
         unique_together = ('survey_group', 'order')

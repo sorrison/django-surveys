@@ -1,0 +1,18 @@
+<table cellspacing="0">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Start Date</th>
+			<th>End Date</th>	
+		</tr>
+	</thead>   	
+   <tbody>
+   	{% for sg in object_list %}
+	   	<tr class="{% cycle row1,row2 %}">
+	   		<td><a href="{{ sg.get_absolute_url }}">{{ sg.name }}</a></td>
+	   		<td>{{ sg.start_date }}</td>
+	   		<td>{{ sg.end_date }}</td>
+	   	</tr>
+	   {% endfor %}
+   </tbody>  	
+</table>

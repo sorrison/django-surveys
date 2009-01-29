@@ -37,7 +37,7 @@ class SurveyQANode(template.Node):
         context['question'] = question
         context['answer'] = answer
 
-        timesheet_template =  template.loader.get_template('surveys/survey_qa_row.html')
+        timesheet_template =  template.loader.get_template('django_surveys/survey_qa_row.html')
         output = timesheet_template.render(context)
         context.pop()
         context.pop()
