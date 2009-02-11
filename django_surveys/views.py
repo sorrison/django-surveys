@@ -11,7 +11,7 @@ from utils import make_survey_form, save_survey_form
 from models import Survey, Question, BooleanAnswer, CharAnswer, SurveyGroup
 from forms import SurveyGroupForm
 
-def do_survey(request, survey_id, redirect_url='thanks/', template_name='django_surveys/survey.html'):
+def do_survey(request, survey_id, redirect_url='thanks/', template_name='django_surveys/survey.html', extra_context={}):
     
     survey = get_object_or_404(Survey, pk=survey_id)
 
@@ -29,7 +29,13 @@ def do_survey(request, survey_id, redirect_url='thanks/', template_name='django_
     else:
         form = SurveyForm()
 
-    return render_to_response(template_name, locals(), context_instance=RequestContext(request))
+    context = extra_context
+    context.update({
+            'form': form,
+            'survey': survey,
+            })
+
+    return render_to_response(template_name, context, context_instance=RequestContext(request))
 
 
 #def survey_done(request, survey_id):
@@ -71,7 +77,7 @@ def question_detail_pie(request, question):
         answer_set = CharAnswer.objects.filter(question=question)
 
     grapher = GraphGenerator()
-    graph_url = grapher.pie_chart(answer_dict)
+    graph_url = grapher.pie_chart(answer_dict).get_url()
 
     return render_to_response('django_surveys/question_detail_pie.html', locals(), context_instance=RequestContext(request))
 
