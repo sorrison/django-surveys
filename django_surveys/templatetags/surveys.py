@@ -29,9 +29,11 @@ class SurveyQANode(template.Node):
             question = self.question.resolve(context)
         except template.VariableDoesNotExist:
             return ''
-
-        answer = Answer.objects.get(question=question, survey=survey)
-
+        
+        try:
+            answer = Answer.objects.get(question=question, survey=survey)
+        except:
+            answer = None
         context.push()
         context.push()
         context['question'] = question

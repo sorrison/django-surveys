@@ -21,7 +21,7 @@ def make_survey_form(survey):
 
     for q in questions:
         try:
-            answer = Answer.objects.get(survey=survey, question=q).get_child()
+            answer = Answer.objects.get(survey=survey, question=q).get_object()
             initial = answer.answer
         except:
             initial = ''
@@ -47,7 +47,7 @@ def save_survey_form(survey, survey_form):
 
     for q in questions:
         try:
-            answer = Answer.objects.get(survey=survey, question=q).get_child()
+            answer = Answer.objects.get(survey=survey, question=q).get_object()
         except:
             answer_class = q.get_answer_class()
             answer = answer_class()

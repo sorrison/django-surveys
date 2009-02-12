@@ -56,7 +56,7 @@ def question_detail_pie(request, question):
     answer_dict = {}
     total = 0
     for a in question.answer_set.all():
-        answer = a.get_child().answer
+        answer = a.get_object().answer
 
         if question.answer_type == 'bool':
             if answer == 1:
