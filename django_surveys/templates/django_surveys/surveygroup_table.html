@@ -4,6 +4,7 @@
 			<th>Name</th>
 			<th>Start Date</th>
 			<th>End Date</th>	
+			<th></th>
 		</tr>
 	</thead>   	
    <tbody>
@@ -12,6 +13,7 @@
 	   		<td><a href="{{ sg.get_absolute_url }}">{{ sg.name }}</a></td>
 	   		<td>{{ sg.start_date }}</td>
 	   		<td>{{ sg.end_date }}</td>
+	   		<td><a href="{% url surv_surveygroup_surveys sg.id %}">Submitted Surveys</a></td>
 	   	</tr>
 	   {% endfor %}
    </tbody>  	

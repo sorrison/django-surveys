@@ -75,6 +75,10 @@ class Survey(models.Model):
     def __unicode__(self):
         return '%s - %s - %s' % (self.survey_group, self.id, self.date_submitted)
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ('surv_survey_detail', [self.id])
+
 
 class Answer(models.Model):
     survey = models.ForeignKey(Survey)

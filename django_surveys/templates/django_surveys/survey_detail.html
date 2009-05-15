@@ -1,0 +1,26 @@
+{% extends "main.html" %}
+{% load surveys %}
+{% block title %}Surveys{% endblock %}
+
+{% block content_title %}{% endblock %}
+    
+{% block bread_crumbs_1 %}
+ &rsaquo; <a href="../">Surveys</a>
+ &rsaquo; {{ survey.submitter }}
+{% endblock %}    
+
+{% block content %}
+<div id="content-main">
+
+	<div class="module">
+		<h2>{{ survey.survey_group }}</h2>
+			<h3>{{ survey.submitter }}</h3>
+			<dl>
+			{% for q in survey.survey_group.question_set.all %}
+				{% qa_row report q %}
+			{% endfor %}
+			</dl>
+	</div>	
+	
+</div>
+{% endblock %}

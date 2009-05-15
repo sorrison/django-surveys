@@ -1,0 +1,14 @@
+<table cellspacing="0">
+	<thead>
+		<tr>
+			<th>Name</th>
+		</tr>
+	</thead>   	
+   <tbody>
+   	{% for s in object_list %}
+	   	<tr class="{% cycle row1,row2 %}">
+	   		<td><a href="{{ s.get_absolute_url }}">{{ s.submitter }}</a></td>
+	   	</tr>
+	   {% endfor %}
+   </tbody>  	
+</table>
