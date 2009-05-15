@@ -15,7 +15,7 @@ class SurveyGroup(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('surv_surveygroup_edit', [self.id])
+        return ('surv_survey_edit', [self.id])
 
 
 TYPES = (
