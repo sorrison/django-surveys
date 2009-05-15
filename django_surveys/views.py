@@ -140,7 +140,7 @@ def survey_list(request, surveygroup_id):
     survey_list = Survey.objects.filter(survey_group__id=surveygroup_id)
     page_no = int(request.GET.get('page', 1))
 
-    p = QuerySetPaginator(report_list, 50)
+    p = QuerySetPaginator(survey_list, 50)
     page = p.page(page_no)
 
 
@@ -151,4 +151,4 @@ def survey_detail(request, survey_id):
     
     survey = get_object_or_404(Survey, pk=survey_id)
 
-    render_to_response('django_surveys/survey_detail.html', locals(), context_instance=RequestContext(request))
+    return render_to_response('django_surveys/survey_detail.html', locals(), context_instance=RequestContext(request))
