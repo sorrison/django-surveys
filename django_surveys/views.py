@@ -11,8 +11,11 @@ from utils import make_survey_form, save_survey_form
 from models import Survey, Question, BooleanAnswer, CharAnswer, SurveyGroup
 from forms import SurveyGroupForm
 
-def do_survey(request, survey_id, redirect_url='thanks/', template_name='django_surveys/survey.html', extra_context={}):
+def do_survey(request, survey_id, redirect_url=None, template_name='django_surveys/survey.html', extra_context={}):
     
+    if redirect_url == None:
+        redirect_url = reverse('surv_survey_thanks',args=[survey_id])
+
     survey = get_object_or_404(Survey, pk=survey_id)
 
     SurveyForm = make_survey_form(survey)
@@ -38,7 +41,12 @@ def do_survey(request, survey_id, redirect_url='thanks/', template_name='django_
     return render_to_response(template_name, context, context_instance=RequestContext(request))
 
 
-#def survey_done(request, survey_id):
+def survey_thanks(request, survey_id):
+
+    survey = get_object_or_404(Survey, pk=survey_id)
+
+    return render_to_response('django_surveys/survey_thanks.html', locals(), context_instance=RequestContext(request))
+
 
 def question_detail(request, question_id):
     
