@@ -17,7 +17,7 @@
 			<h3>{{ survey.submitter }}</h3>
 			<dl>
 			{% for q in survey.survey_group.question_set.all %}
-				{% qa_row report q %}
+				{% qa_row survey q %}
 			{% endfor %}
 			</dl>
 	</div>	
