@@ -1,3 +1,4 @@
+from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 from django.http import HttpResponseRedirect
@@ -48,6 +49,7 @@ def survey_thanks(request, survey_id):
     return render_to_response('django_surveys/survey_thanks.html', locals(), context_instance=RequestContext(request))
 
 
+@staff_member_required
 def question_detail(request, question_id):
     
     question = get_object_or_404(Question, pk=question_id)
@@ -60,6 +62,7 @@ def question_detail(request, question_id):
     return render_to_response('django_surveys/question_detail.html', locals(), context_instance=RequestContext(request))
 
 
+@staff_member_required
 def question_detail_pie(request, question):
     answer_dict = {}
     total = 0
@@ -91,6 +94,7 @@ def question_detail_pie(request, question):
 
 
 
+@staff_member_required
 def add_edit_survey(request, surveygroup_id=None):
 
     if surveygroup_id:
@@ -130,6 +134,7 @@ def add_edit_survey(request, surveygroup_id=None):
     return render_to_response('django_surveys/survey_form.html', locals(), context_instance=RequestContext(request)) 
 
 
+@staff_member_required
 def surveygroup_list(request):
 
     page_no = int(request.GET.get('page', 1))
@@ -143,6 +148,7 @@ def surveygroup_list(request):
 
     
 
+@staff_member_required
 def survey_list(request, surveygroup_id):
 
     survey_list = Survey.objects.filter(survey_group__id=surveygroup_id)
@@ -155,6 +161,7 @@ def survey_list(request, surveygroup_id):
     return render_to_response('django_surveys/survey_list.html', locals(), context_instance=RequestContext(request))
 
 
+@staff_member_required
 def survey_detail(request, survey_id):
     
     survey = get_object_or_404(Survey, pk=survey_id)
