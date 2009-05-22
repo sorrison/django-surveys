@@ -165,3 +165,10 @@ def survey_detail(request, survey_id):
     survey = get_object_or_404(Survey, pk=survey_id)
 
     return render_to_response('django_surveys/survey_detail.html', locals(), context_instance=RequestContext(request))
+
+@staff_member_required
+def question_list(request, surveygroup_id):
+    
+    surveygroup = get_object_or_404(SurveyGroup, pk=surveygroup_id)
+
+    return render_to_response('django_surveys/question_list.html', locals(), context_instance=RequestContext(request))
