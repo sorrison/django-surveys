@@ -16,7 +16,7 @@ from datetime import *
 
 def do_survey(request, survey_id, redirect_url=None, template_name='django_surveys/survey.html', extra_context={}):
     
-    if redirect_url == None:
+    if redirect_url is None:
         redirect_url = reverse('surv_survey_thanks')
 
     survey = get_object_or_404(Survey, pk=survey_id)
