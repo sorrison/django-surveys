@@ -72,6 +72,11 @@ class Survey(models.Model):
     submitter = models.CharField(max_length=100, default="anonymous")
     date_submitted = models.DateField(null=True, blank=True)
 
+    class Meta:
+         permissions = (
+            ("survey_admin", "Survey Admin"),
+         )
+	
     def __unicode__(self):
         return '%s - %s - %s' % (self.survey_group, self.id, self.date_submitted)
 

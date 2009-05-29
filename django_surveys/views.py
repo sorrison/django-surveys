@@ -1,10 +1,10 @@
-from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 from django.http import HttpResponseRedirect
 from django.forms.models import inlineformset_factory
 from django.core.urlresolvers import reverse
 from django.core.paginator import QuerySetPaginator
+from django.contrib.auth.decorators import permission_required
 
 from django_common.graphs.googlechart import GraphGenerator
 
@@ -54,7 +54,6 @@ def survey_thanks(request):
     return render_to_response('django_surveys/survey_thanks.html', locals(), context_instance=RequestContext(request))
 
 
-@staff_member_required
 def question_detail(request, question_id):
     
     question = get_object_or_404(Question, pk=question_id)
@@ -66,8 +65,9 @@ def question_detail(request, question_id):
     
     return render_to_response('django_surveys/question_detail.html', locals(), context_instance=RequestContext(request))
 
+question_detail = permission_required('django_surveys.survey_admin')(question_detail)
 
-@staff_member_required
+
 def question_detail_pie(request, question):
     answer_dict = {}
     total = 0
@@ -79,7 +79,6 @@ def question_detail_pie(request, question):
                 answer = 'yes'
             elif answer == 0:
                 answer = 'no'
-
         try:
             answer_dict[answer] += 1
         except:
@@ -97,9 +96,9 @@ def question_detail_pie(request, question):
 
     return render_to_response('django_surveys/question_detail_pie.html', locals(), context_instance=RequestContext(request))
 
+question_detail_pie = permission_required('django_surveys.survey_admin')(question_detail_pie)
 
 
-@staff_member_required
 def add_edit_survey(request, surveygroup_id=None):
 
     if surveygroup_id:
@@ -122,24 +121,20 @@ def add_edit_survey(request, surveygroup_id=None):
                 question_formset.is_valid()
             question_formset.save()
 
-            
             if 'another' in request.POST:
                 return HttpResponseRedirect(reverse('surv_survey_edit', args=[surveygroup.id]))
 
             return HttpResponseRedirect(reverse('surv_surveygroup_list'))
 
     else:
-
         surveygroup_form = SurveyGroupForm(instance=surveygroup)
         question_formset = QuestionFormSet(instance=surveygroup)
 
-
-
-
     return render_to_response('django_surveys/survey_form.html', locals(), context_instance=RequestContext(request)) 
 
+add_edit_survey = permission_required('django_surveys.survey_admin')(add_edit_survey)
 
-@staff_member_required
+
 def surveygroup_list(request):
 
     page_no = int(request.GET.get('page', 1))
@@ -151,9 +146,9 @@ def surveygroup_list(request):
 
     return render_to_response('django_surveys/surveygroup_list.html', locals(), context_instance=RequestContext(request)) 
 
-    
+surveygroup_list = permission_required('django_surveys.survey_admin')(surveygroup_list)
 
-@staff_member_required
+    
 def survey_list(request, surveygroup_id):
 
     survey_list = Survey.objects.filter(survey_group__id=surveygroup_id)
@@ -165,17 +160,22 @@ def survey_list(request, surveygroup_id):
 
     return render_to_response('django_surveys/survey_list.html', locals(), context_instance=RequestContext(request))
 
+survey_list = permission_required('django_surveys.survey_admin')(survey_list)
 
-@staff_member_required
+
 def survey_detail(request, survey_id):
     
     survey = get_object_or_404(Survey, pk=survey_id)
 
     return render_to_response('django_surveys/survey_detail.html', locals(), context_instance=RequestContext(request))
 
-@staff_member_required
+survey_detail = permission_required('django_surveys.survey_admin')(survey_detail)
+
+
 def question_list(request, surveygroup_id):
     
     surveygroup = get_object_or_404(SurveyGroup, pk=surveygroup_id)
 
     return render_to_response('django_surveys/question_list.html', locals(), context_instance=RequestContext(request))
+
+question_list = permission_required('django_surveys.survey_admin')(question_list)
