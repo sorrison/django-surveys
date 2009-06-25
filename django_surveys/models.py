@@ -3,8 +3,6 @@ from django import forms
 from django.db.models.fields import FieldDoesNotExist
 from django.db.models.related import RelatedObject
 
-from django_common.graphs.googlechart import GraphGenerator
-
 class SurveyGroup(models.Model):
     name = models.CharField(max_length=50)
     start_date = models.DateField()
@@ -102,6 +100,7 @@ class Question(models.Model):
         return (answer_dict, answer_array, total)
 
     def get_graph_url(self):
+        from django_common.graphs.googlechart import GraphGenerator
         answer_summary = self.get_answer_summary()
         grapher = GraphGenerator()
         graph_url = grapher.pie_chart(answer_summary[0]).get_url()
