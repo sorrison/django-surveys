@@ -107,15 +107,6 @@ class Question(models.Model):
         graph_url = grapher.pie_chart(answer_summary[0]).get_url()
         return graph_url
 
-    def get_answer_set(self):
-        if self.answer_type == 'bool':
-            answer_set = BooleanAnswer.objects.filter(question=self)
-        elif self.answer_type == 'choi':
-            answer_set = CharAnswer.objects.filter(question=self)
-        else:
-            raise RuntimeError("Answer type %s not supported"%(self.answer_type))
-        return answer_set
-
 class Survey(models.Model):
     survey_group = models.ForeignKey(SurveyGroup)
     submitter = models.CharField(max_length=100, default="anonymous")
