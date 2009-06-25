@@ -100,7 +100,6 @@ class Question(models.Model):
             return False
 
     def get_answer_summary(self):
-        print "------"
         return get_answer_summary(self,self.answer_set.all())
 
 class Survey(models.Model):
