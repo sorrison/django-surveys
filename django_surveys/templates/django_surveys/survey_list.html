@@ -6,5 +6,6 @@
 
 {% block breadcrumbs %}{{ block.super }}
  &rsaquo; <a href="{% url surv_surveygroup_list %}">Surveys</a>
+ &rsaquo; <a href="{% url surv_surveygroup_questions surveygroup.pk %}">{{ surveygroup }}</a>
  &rsaquo; Responses
 {% endblock %}

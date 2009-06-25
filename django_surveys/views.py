@@ -111,6 +111,7 @@ surveygroup_list = permission_required('django_surveys.survey_admin')(surveygrou
     
 def survey_list(request, surveygroup_id):
 
+    surveygroup = get_object_or_404(SurveyGroup, pk=surveygroup_id)
     survey_list = Survey.objects.filter(survey_group__id=surveygroup_id)
     page_no = int(request.GET.get('page', 1))
 

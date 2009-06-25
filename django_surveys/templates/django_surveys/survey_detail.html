@@ -6,6 +6,7 @@
     
 {% block bread_crumbs_1 %}
  &rsaquo; <a href="{% url surv_surveygroup_list %}">Surveys</a>
+ &rsaquo; <a href="{% url surv_surveygroup_questions survey.survey_group.pk %}">{{ survey.survey_group }}</a>
  &rsaquo; <a href="{% url surv_surveygroup_surveys survey.survey_group.pk %}">Responses</a>
  &rsaquo; {{ survey.submitter }}
 {% endblock %}    
