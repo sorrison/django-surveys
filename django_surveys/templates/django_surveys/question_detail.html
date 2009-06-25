@@ -5,8 +5,9 @@
 {% block content_title %}{% endblock %}
     
 {% block bread_crumbs_1 %}
- &rsaquo; <a href="../">Questions</a>
- &rsaquo; {{ report }}
+ &rsaquo; <a href="{% url surv_surveygroup_list %}">Surveys</a>
+ &rsaquo; <a href="{% url surv_surveygroup_questions question.survey_group.pk %}">{{ question.survey_group }}</a>
+ &rsaquo; {{ question }}
 {% endblock %}    
 
 {% block content %}
