@@ -6,8 +6,6 @@ from django.core.urlresolvers import reverse
 from django.core.paginator import QuerySetPaginator
 from django.contrib.auth.decorators import permission_required
 
-from django_common.graphs.googlechart import GraphGenerator
-
 from utils import make_survey_form, save_survey_form
 from models import Survey, Question, BooleanAnswer, CharAnswer, SurveyGroup
 from forms import SurveyGroupForm
@@ -57,47 +55,9 @@ def survey_thanks(request):
 def question_detail(request, question_id):
     
     question = get_object_or_404(Question, pk=question_id)
-
-
-    if question.answer_type == 'bool' or question.answer_type == 'choi':
-        return question_detail_pie(request, question)
-
-    
     return render_to_response('django_surveys/question_detail.html', locals(), context_instance=RequestContext(request))
 
 question_detail = permission_required('django_surveys.survey_admin')(question_detail)
-
-
-def question_detail_pie(request, question):
-    answer_dict = {}
-    total = 0
-    for a in question.answer_set.all():
-        answer = a.get_object().answer
-
-        if question.answer_type == 'bool':
-            if answer == 1:
-                answer = 'yes'
-            elif answer == 0:
-                answer = 'no'
-        try:
-            answer_dict[answer] += 1
-        except:
-            answer_dict[answer] = 1
-
-        total += 1
-    
-    if question.answer_type == 'bool':
-        answer_set = BooleanAnswer.objects.filter(question=question)
-    elif question.answer_type == 'choi':
-        answer_set = CharAnswer.objects.filter(question=question)
-
-    grapher = GraphGenerator()
-    graph_url = grapher.pie_chart(answer_dict).get_url()
-
-    return render_to_response('django_surveys/question_detail_pie.html', locals(), context_instance=RequestContext(request))
-
-question_detail_pie = permission_required('django_surveys.survey_admin')(question_detail_pie)
-
 
 def add_edit_survey(request, surveygroup_id=None):
 

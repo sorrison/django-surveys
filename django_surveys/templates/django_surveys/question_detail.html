@@ -15,14 +15,35 @@
 	<div class="module">
 	
 	<h1>{{ question.question }}</h1>
-	<dl>
-	{% for a in question.answer_set.all %}	
-			<dt>{{ a.survey.submitter }}</dt>	
-			<dd>{{ a.get_answer }}</dd>	
-	
-	{% endfor %}
-	</dl>
-	</div>	
-	
+
+    {% if question.has_graph %}
+        <img src="{{ question.get_graph_url }}" alt="graph" />
+        <hr />
+
+        {% with question.get_answer_summary as summary %}
+            <ul>
+            {% for result in summary.1 %}
+            <li>{{result.answer}} ({{result.count}})
+                <ul>
+                   {% for survey in result.surveys %}
+                    <li>{{ survey.submitter }}</li>
+                   {% endfor %}
+                </ul>
+            </li>
+            {% endfor %}
+            </ul>
+            <p>{{ summary.2 }} answer{{ summary.2|pluralize }} in total</p>
+        {% endwith %}
+
+    {% else %}
+        <dl>
+        {% for a in question.answer_set.all %}	
+                <dt>{{ a.survey.submitter }}</dt>	
+                <dd>{{ a.get_answer }}</dd>	
+        {% endfor %}
+        </dl>
+    {% endif %}
+    </div>	
+
 </div>
 {% endblock %}

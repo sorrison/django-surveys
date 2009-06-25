@@ -3,6 +3,7 @@ from django import forms
 from django.db.models.fields import FieldDoesNotExist
 from django.db.models.related import RelatedObject
 
+from django_common.graphs.googlechart import GraphGenerator
 
 class SurveyGroup(models.Model):
     name = models.CharField(max_length=50)
@@ -66,6 +67,54 @@ class Question(models.Model):
             }
         return fields[self.answer_type]
 
+    def has_graph(self):
+        if self.answer_type == 'bool' or self.answer_type == 'choi':
+            return True
+        else:
+            return False
+
+    def get_answer_summary(self):
+        answer_dict = {}
+        survey_dict = {}
+        total = 0
+
+        for a in self.answer_set.all():
+            answer = a.get_object().answer
+
+            if self.answer_type == 'bool':
+                if answer == 1:
+                    answer = 'yes'
+                elif answer == 0:
+                    answer = 'no'
+
+            if answer not in answer_dict:
+                answer_dict[answer] = 0
+
+            if answer not in survey_dict:
+                survey_dict[answer] = []
+
+            answer_dict[answer] += 1
+            survey_dict[answer].append(a.survey)
+            total += 1
+
+            answer_array = [ {'answer': answer,'count': answer_dict[answer],'surveys': survey_dict[answer]} for answer in answer_dict ]
+
+            return (answer_dict, answer_array, total)
+
+    def get_graph_url(self):
+        answer_summary = self.get_answer_summary()
+        grapher = GraphGenerator()
+        graph_url = grapher.pie_chart(answer_summary[0]).get_url()
+        return graph_url
+
+    def get_answer_set(self):
+        if self.answer_type == 'bool':
+            answer_set = BooleanAnswer.objects.filter(question=self)
+        elif self.answer_type == 'choi':
+            answer_set = CharAnswer.objects.filter(question=self)
+        else:
+            raise RuntimeError("Answer type %s not supported"%(self.answer_type))
+        return answer_set
 
 class Survey(models.Model):
     survey_group = models.ForeignKey(SurveyGroup)
