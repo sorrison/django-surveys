@@ -99,13 +99,6 @@ class Question(models.Model):
 
         return (answer_dict, answer_array, total)
 
-    def get_graph_url(self):
-        from django_common.graphs.googlechart import GraphGenerator
-        answer_summary = self.get_answer_summary()
-        grapher = GraphGenerator()
-        graph_url = grapher.pie_chart(answer_summary[0]).get_url()
-        return graph_url
-
 class Survey(models.Model):
     survey_group = models.ForeignKey(SurveyGroup)
     submitter = models.CharField(max_length=100, default="anonymous")

@@ -4,9 +4,17 @@ from django.template import resolve_variable
 
 from django_surveys.models import Answer
 
+from django.utils.safestring import mark_safe
 
+from django_common.graphs.googlechart import GraphGenerator
 
 register = Library()
+
+@register.simple_tag
+def graph_summary_url(answer_summary):
+    grapher = GraphGenerator()
+    graph_url = grapher.pie_chart(answer_summary[0]).get_url()
+    return mark_safe(graph_url)
 
 @register.tag
 def qa_row(parser, token):
