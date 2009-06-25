@@ -97,9 +97,9 @@ class Question(models.Model):
             survey_dict[answer].append(a.survey)
             total += 1
 
-            answer_array = [ {'answer': answer,'count': answer_dict[answer],'surveys': survey_dict[answer]} for answer in answer_dict ]
+        answer_array = [ {'answer': answer,'count': answer_dict[answer],'surveys': survey_dict[answer]} for answer in answer_dict ]
 
-            return (answer_dict, answer_array, total)
+        return (answer_dict, answer_array, total)
 
     def get_graph_url(self):
         answer_summary = self.get_answer_summary()
