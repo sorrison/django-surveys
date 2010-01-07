@@ -12,12 +12,11 @@ from forms import SurveyGroupForm
 
 from datetime import *
 
-def do_survey(request, survey_id, redirect_url=None, template_name='django_surveys/survey.html', extra_context={}):
+def do_survey(request, survey, redirect_url=None, template_name='django_surveys/survey.html', extra_context={}):
     
     if redirect_url is None:
         redirect_url = reverse('surv_survey_thanks')
 
-    survey = get_object_or_404(Survey, pk=survey_id)
     if date.today() < survey.survey_group.start_date:
         return render_to_response("django_surveys/survey_error.html", {"message":"Survey hasn't started yet"}, context_instance=RequestContext(request))
 
