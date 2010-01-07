@@ -51,6 +51,7 @@ TYPES = (
     ('bool', 'Boolean'),
     ('choi', 'Select'),
     ('many', 'Select Many'),
+    ('capt', 'Captcha'),
     )
 
 class Question(models.Model):
@@ -73,7 +74,7 @@ class Question(models.Model):
         return ('surv_question_detail', [self.id,])
 
     def get_form_field(self):
-        if self.answer_type == "captcha":
+        if self.answer_type == "capt":
             from captcha.fields import CaptchaField
             return CaptchaField
 
@@ -90,7 +91,7 @@ class Question(models.Model):
     def get_answer_class(self):
         from django_surveys.models import TextAnswer, IntegerAnswer, BooleanAnswer
         fields = {
-            'captcha': TextAnswer,
+            'capt': TextAnswer,
             'text': TextAnswer,
             'int': IntegerAnswer,
             'bool': BooleanAnswer,
