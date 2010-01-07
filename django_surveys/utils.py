@@ -54,5 +54,8 @@ def save_survey_form(survey, survey_form):
         
         answer.survey = survey
         answer.question = q
-        answer.answer = data[str(q.order)]
+        if q.answer_type == "captcha":
+            answer.answer = data[str(q.order)][1]
+        else:
+            answer.answer = data[str(q.order)]
         answer.save()

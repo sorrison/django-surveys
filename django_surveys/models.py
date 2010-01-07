@@ -73,6 +73,10 @@ class Question(models.Model):
         return ('surv_question_detail', [self.id,])
 
     def get_form_field(self):
+        if self.answer_type == "captcha":
+            from captcha.fields import CaptchaField
+            return CaptchaField
+
         from django_common.widgets import TextField
         fields = {
             'text': TextField,
@@ -86,6 +90,7 @@ class Question(models.Model):
     def get_answer_class(self):
         from django_surveys.models import TextAnswer, IntegerAnswer, BooleanAnswer
         fields = {
+            'captcha': TextAnswer,
             'text': TextAnswer,
             'int': IntegerAnswer,
             'bool': BooleanAnswer,
