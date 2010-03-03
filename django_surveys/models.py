@@ -20,34 +20,6 @@ from django import forms
 from django.db.models.fields import FieldDoesNotExist
 from django.db.models.related import RelatedObject
 
-def get_answer_summary(question,answer_set):
-    answer_dict = {}
-    survey_dict = {}
-    total = 0
-
-    for a in answer_set:
-        answer = a.get_object().answer
-
-        if question.answer_type == 'bool':
-            if answer == 1:
-                answer = 'yes'
-            elif answer == 0:
-                answer = 'no'
-
-        if answer not in answer_dict:
-            answer_dict[answer] = 0
-
-        if answer not in survey_dict:
-            survey_dict[answer] = []
-
-        answer_dict[answer] += 1
-        survey_dict[answer].append(a.survey)
-        total += 1
-
-    answer_array = [ {'answer': answer,'count': answer_dict[answer],'surveys': survey_dict[answer]} for answer in answer_dict ]
-
-    return (answer_dict, answer_array, total)
-
 class SurveyGroup(models.Model):
     name = models.CharField(max_length=50)
     start_date = models.DateField()
@@ -95,7 +67,7 @@ class Question(models.Model):
             from captcha.fields import CaptchaField
             return CaptchaField
 
-        from django_common.widgets import TextField
+        from widgets import TextField
         fields = {
             'text': TextField,
             'int': forms.IntegerField,
@@ -123,7 +95,8 @@ class Question(models.Model):
             return False
 
     def get_answer_summary(self):
-        return get_answer_summary(self,self.answer_set.all())
+        from utils import get_answer_summary
+        return get_answer_summary(self, self.answer_set.all())
 
 class Survey(models.Model):
     survey_group = models.ForeignKey(SurveyGroup)
