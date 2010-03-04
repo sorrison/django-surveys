@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with django-surveys  If not, see <http://www.gnu.org/licenses/>.
 
-from django import CharField, Textarea
+from django.forms import CharField, Textarea
 
 class TextField(CharField):
     widget = Textarea(attrs={'cols': '85'})

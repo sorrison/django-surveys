@@ -1,3 +1,9 @@
+django-surveys (1.0.1) testing; urgency=low
+
+  * Fixed wrong import bug.
+
+ -- Sam Morrison <sam@vpac.org>  Thu, 04 Mar 2010 16:23:48 +1100
+
 django-surveys (1.0) testing; urgency=low
 
   * Initial release.
