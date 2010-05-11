@@ -8,6 +8,6 @@
 
 {% block objecttools %}
 {% if perms.surveys.add_surveygroup %}
-<ul class="object-tools"><li><a href="add/" class="addlink">Add survey</a></li></ul>
+<ul class="object-tools"><li><a href="{% url surv_survey_add %}" class="addlink">Create Survey</a></li></ul>
 {% endif %}
 {% endblock %}
