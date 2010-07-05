@@ -1,3 +1,9 @@
+django-surveys (1.0.3) stable; urgency=low
+
+  * Added django south migrations to app
+
+ -- Sam Morrison <sam@vpac.org>  Tue, 06 Jul 2010 09:43:31 +1000
+
 django-surveys (1.0.2) stable; urgency=low
 
   * Fixed create survey link
