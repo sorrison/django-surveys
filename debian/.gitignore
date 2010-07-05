@@ -1,0 +1,8 @@
+django-surveys.debhelper.log
+django-surveys.postinst.debhelper
+django-surveys.prerm.debhelper
+django-surveys.substvars
+django-surveys/
+files
+pycompat
+python-module-stampdir/
