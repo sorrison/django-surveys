@@ -46,7 +46,7 @@ def make_survey_form(survey):
         field = q.get_form_field()
 
         if q.preset_answers:
-            fields[str(q.order)] = field(label=q.question, required=q.required, initial=initial, choices=make_choice_tuple(q.preset_answers), widget=forms.RadioSelect)
+            fields[str(q.order)] = field(label=q.question, required=q.required, initial=initial, choices=make_choice_tuple(q.preset_answers), widget=forms.RadioSelect, help_text=q.help_text)
         else:
             fields[str(q.order)] = field(label=q.question, required=q.required, initial=initial)
 

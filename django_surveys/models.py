@@ -56,6 +56,7 @@ class Question(models.Model):
     answer_type = models.CharField(max_length=4, choices=TYPES)
     required = models.BooleanField()
     preset_answers = models.TextField(null=True, blank=True, help_text="Use only with Select and Select Many. Seperate answers with a semicolon.")
+    help_text = models.CharField(max_length=255, null=True, blank=True)
 
     class Meta:
         unique_together = ('survey_group', 'order')
