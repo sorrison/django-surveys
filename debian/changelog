@@ -1,3 +1,10 @@
+django-surveys (1.0.4-1) testing; urgency=low
+
+  * Added slug field to SurveyGroup
+  * Django 1.2 support
+
+ -- Sam Morrison <sam@vpac.org>  Thu, 14 Oct 2010 13:06:03 +1100
+
 django-surveys (1.0.3) stable; urgency=low
 
   * Added django south migrations to app
