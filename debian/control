@@ -8,7 +8,7 @@ Standards-Version: 3.8.3.0
 Package: django-surveys
 Architecture: all
 Homepage: http://trac.vpac.org/django-surveys/
-Depends: ${misc:Depends}, ${python:Depends}, python-django (>= 1.1), python-django-south (>= 0.7)
+Depends: ${misc:Depends}, ${python:Depends}, python-django (>= 1.2.1), python-django-south (>= 0.7)
 Description: Dynamic Survey generator for Django
  Django app to generate surveys in a dynamic way. 
 
