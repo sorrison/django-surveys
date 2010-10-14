@@ -22,16 +22,22 @@ from django.db.models.related import RelatedObject
 
 class SurveyGroup(models.Model):
     name = models.CharField(max_length=50)
+    slug = models.SlugField(editable=False)
     start_date = models.DateField()
     end_date = models.DateField()
 
     def __unicode__(self):
         return self.name
     
-
     @models.permalink
     def get_absolute_url(self):
         return ('surv_survey_edit', [self.id])
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            from django.template.defaultfilters import slugify
+            self.slug = slugify(self.name)
+        super(SurveyGroup, self).save(*args, **kwargs)
 
 
 TYPES = (
