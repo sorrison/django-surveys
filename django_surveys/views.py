@@ -23,11 +23,12 @@ from django.core.urlresolvers import reverse
 from django.core.paginator import QuerySetPaginator
 from django.contrib.auth.decorators import permission_required
 
-from utils import make_survey_form, save_survey_form
-from models import Survey, Question, BooleanAnswer, CharAnswer, SurveyGroup
-from forms import SurveyGroupForm
+from datetime import date
 
-from datetime import *
+from django_surveys.utils import make_survey_form, save_survey_form
+from django_surveys.models import Survey, Question, BooleanAnswer, CharAnswer, SurveyGroup
+from django_surveys.forms import SurveyGroupForm
+
 
 def do_survey(request, survey, redirect_url=None, template_name='django_surveys/survey.html', extra_context={}):
     
