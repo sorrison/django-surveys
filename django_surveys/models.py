@@ -23,6 +23,7 @@ from django.db.models.related import RelatedObject
 class SurveyGroup(models.Model):
     name = models.CharField(max_length=50)
     slug = models.SlugField(editable=False)
+    abstract = models.TextField(null=True, blank=True)
     start_date = models.DateField()
     end_date = models.DateField()
 
