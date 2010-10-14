@@ -16,7 +16,7 @@
 # along with django-surveys  If not, see <http://www.gnu.org/licenses/>.
 
 from django import forms
-
+from django.utils.datastructures import SortedDict
 import datetime
 
 from models import Answer
@@ -34,7 +34,7 @@ def make_choice_tuple(choices):
 def make_survey_form(survey):
 
     questions = survey.survey_group.question_set.all()
-    fields = {}
+    fields = SortedDict()
 
     for q in questions:
         try:
@@ -45,8 +45,10 @@ def make_survey_form(survey):
 
         field = q.get_form_field()
 
-        if q.preset_answers:
+        if q.answer_type == 'choi':
             fields[str(q.order)] = field(label=q.question, required=q.required, initial=initial, choices=make_choice_tuple(q.preset_answers), widget=forms.RadioSelect, help_text=q.help_text)
+        elif q.answer_type == 'many':
+            fields[str(q.order)] = field(label=q.question, required=q.required, initial=initial, choices=make_choice_tuple(q.preset_answers), widget=forms.CheckboxSelectMultiple, help_text=q.help_text)
         else:
             fields[str(q.order)] = field(label=q.question, required=q.required, initial=initial)
 
