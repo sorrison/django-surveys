@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with django-surveys  If not, see <http://www.gnu.org/licenses/>.
 
-VERSION = (1, 0, 4, 'final', 0)
+VERSION = (1, 0, 5, 'final', 0)
 
 def get_version():
     version = '%s.%s' % (VERSION[0], VERSION[1])
