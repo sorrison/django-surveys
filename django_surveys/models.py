@@ -81,6 +81,7 @@ class Question(models.Model):
             'int': forms.IntegerField,
             'bool': forms.BooleanField,
             'choi': forms.ChoiceField,
+            'many': forms.MultipleChoiceField,
             }
         return fields[self.answer_type]
 
@@ -93,6 +94,7 @@ class Question(models.Model):
             'int': IntegerAnswer,
             'bool': BooleanAnswer,
             'choi': CharAnswer,
+            'many': TextAnswer,
             }
         return fields[self.answer_type]
 
@@ -191,7 +193,4 @@ class CharAnswer(Answer):
 
     def get_answer(self):
         return self.answer
-
-
- 
 
