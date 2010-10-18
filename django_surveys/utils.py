@@ -21,6 +21,17 @@ import datetime
 
 from models import Answer
 
+from django.forms.widgets import RadioFieldRenderer as BaseRadioFieldRenderer
+from django.utils.safestring import mark_safe
+from django.utils.encoding import StrAndUnicode, force_unicode
+ 
+class RadioFieldRenderer(BaseRadioFieldRenderer):
+ 
+    def render(self):
+        """Outputs a <ul> for this set of radio fields."""
+        return mark_safe(u'<ul class="inline">\n%s\n</ul>' % u'\n'.join([u'<li>%s</li>'
+                                                                         % force_unicode(w) for w in self]))
+
 
 def make_choice_tuple(choices):
     
@@ -46,11 +57,11 @@ def make_survey_form(survey):
         field = q.get_form_field()
 
         if q.answer_type == 'choi':
-            fields[str(q.order)] = field(label=q.question, required=q.required, initial=initial, choices=make_choice_tuple(q.preset_answers), widget=forms.RadioSelect, help_text=q.help_text)
+            fields[str(q.order)] = field(label=q.question, required=q.required, initial=initial, choices=make_choice_tuple(q.preset_answers), widget=forms.RadioSelect(renderer=RadioFieldRenderer), help_text=q.help_text)
         elif q.answer_type == 'many':
             fields[str(q.order)] = field(label=q.question, required=q.required, initial=initial, choices=make_choice_tuple(q.preset_answers), widget=forms.CheckboxSelectMultiple, help_text=q.help_text)
         else:
-            fields[str(q.order)] = field(label=q.question, required=q.required, initial=initial)
+            fields[str(q.order)] = field(label=q.question, required=q.required, initial=initial, help_text=q.help_text)
 
     return type('SurveyForm', (forms.BaseForm,), {'base_fields': fields})
 
