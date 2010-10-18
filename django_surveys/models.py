@@ -70,6 +70,11 @@ class Question(models.Model):
     def get_absolute_url(self):
         return ('surv_question_detail', [self.id,])
 
+    def save(self, *args, **kwargs):
+        if self.preset_answers:
+            self.preset_answers = self.preset_answers.strip()
+        super(Question, self).save(*args, **kwargs)
+
     def get_form_field(self):
         if self.answer_type == "capt":
             from captcha.fields import CaptchaField
@@ -107,6 +112,7 @@ class Question(models.Model):
     def get_answer_summary(self):
         from utils import get_answer_summary
         return get_answer_summary(self, self.answer_set.all())
+
 
 class Survey(models.Model):
     survey_group = models.ForeignKey(SurveyGroup)
