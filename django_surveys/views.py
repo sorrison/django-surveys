@@ -69,13 +69,14 @@ def survey_thanks(request):
     return render_to_response('django_surveys/survey_thanks.html', locals(), context_instance=RequestContext(request))
 
 
+@permission_required('django_surveys.survey_admin')
 def question_detail(request, question_id):
     
     question = get_object_or_404(Question, pk=question_id)
     return render_to_response('django_surveys/question_detail.html', locals(), context_instance=RequestContext(request))
 
-question_detail = permission_required('django_surveys.survey_admin')(question_detail)
 
+@permission_required('django_surveys.survey_admin')
 def add_edit_survey(request, surveygroup_id=None):
 
     if surveygroup_id:
@@ -109,9 +110,8 @@ def add_edit_survey(request, surveygroup_id=None):
 
     return render_to_response('django_surveys/survey_form.html', locals(), context_instance=RequestContext(request)) 
 
-add_edit_survey = permission_required('django_surveys.survey_admin')(add_edit_survey)
 
-
+@permission_required('django_surveys.survey_admin')
 def surveygroup_list(request):
 
     page_no = int(request.GET.get('page', 1))
@@ -123,9 +123,8 @@ def surveygroup_list(request):
 
     return render_to_response('django_surveys/surveygroup_list.html', locals(), context_instance=RequestContext(request)) 
 
-surveygroup_list = permission_required('django_surveys.survey_admin')(surveygroup_list)
-
     
+@permission_required('django_surveys.survey_admin')
 def survey_list(request, surveygroup_id):
 
     surveygroup = get_object_or_404(SurveyGroup, pk=surveygroup_id)
@@ -138,22 +137,18 @@ def survey_list(request, surveygroup_id):
 
     return render_to_response('django_surveys/survey_list.html', locals(), context_instance=RequestContext(request))
 
-survey_list = permission_required('django_surveys.survey_admin')(survey_list)
 
-
+@permission_required('django_surveys.survey_admin')
 def survey_detail(request, survey_id):
     
     survey = get_object_or_404(Survey, pk=survey_id)
 
     return render_to_response('django_surveys/survey_detail.html', locals(), context_instance=RequestContext(request))
 
-survey_detail = permission_required('django_surveys.survey_admin')(survey_detail)
 
-
+@permission_required('django_surveys.survey_admin')
 def question_list(request, surveygroup_id):
     
     surveygroup = get_object_or_404(SurveyGroup, pk=surveygroup_id)
 
     return render_to_response('django_surveys/question_list.html', locals(), context_instance=RequestContext(request))
-
-question_list = permission_required('django_surveys.survey_admin')(question_list)
