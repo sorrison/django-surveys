@@ -1,3 +1,9 @@
+django-surveys (1.0.8-1) stable; urgency=low
+
+  * Minor bug fixes
+
+ -- Sam Morrison <sam@vpac.org>  Thu, 10 Feb 2011 14:38:40 +1100
+
 django-surveys (1.0.7-1) testing; urgency=low
 
   * Strip whitespace from preset answers.
