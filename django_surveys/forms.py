@@ -17,11 +17,14 @@
 
 
 from django import forms
+from django.contrib.admin.widgets import AdminDateWidget
 
-from models import SurveyGroup, Question
+from django_surveys.models import SurveyGroup, Question
 
 class SurveyGroupForm(forms.ModelForm):
-    
+    start_date = forms.DateField(widget=AdminDateWidget)
+    end_date = forms.DateField(widget=AdminDateWidget)
+
     class Meta:
         model = SurveyGroup
 
